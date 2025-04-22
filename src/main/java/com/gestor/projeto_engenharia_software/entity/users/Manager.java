@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -25,7 +29,9 @@ public class Manager {
     @Column(nullable = false)
     private String role;
     @Column(nullable = false)
-    private String createdAt;
+    @CreationTimestamp
+    private Instant createdAt;
     @Column(nullable = false)
-    private String updatedAt;
+    @UpdateTimestamp
+    private Instant updatedAt;
 }

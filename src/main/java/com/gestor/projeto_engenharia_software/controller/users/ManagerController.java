@@ -20,6 +20,7 @@ public class ManagerController {
 
     @PostMapping
     public ResponseEntity<ManagerDTO> createManager(@RequestBody ManagerDTO managerDTO) {
+        managerDTO.setRole("manager");
         ManagerDTO savedManager = managerService.createManager(managerDTO);
         return new ResponseEntity<>(savedManager, HttpStatus.CREATED);
     }
