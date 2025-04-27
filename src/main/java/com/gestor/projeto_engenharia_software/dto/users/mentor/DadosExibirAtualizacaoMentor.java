@@ -1,4 +1,4 @@
-package com.gestor.projeto_engenharia_software.dto.users;
+package com.gestor.projeto_engenharia_software.dto.users.mentor;
 
 import com.gestor.projeto_engenharia_software.entity.users.Mentor;
 import jakarta.validation.constraints.*;
