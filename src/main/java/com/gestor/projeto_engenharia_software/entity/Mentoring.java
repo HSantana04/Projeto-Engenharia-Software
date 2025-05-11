@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -30,7 +30,7 @@ public class Mentoring {
     @Column(nullable = false)
     private boolean concluded;
     @Column(nullable = false)
-    private ZonedDateTime scheduled_date;
+    private OffsetDateTime scheduled_date;
     @Column(nullable = false)
     private Instant created_date;
     @Column(nullable = false)

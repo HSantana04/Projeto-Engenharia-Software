@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -21,7 +21,7 @@ public class MentoringDTO {
     private Integer topicID;
     private Boolean concluded;
     @JsonFormat(pattern = "dd-MM-yyyy'T'HH:mmXXX")
-    private ZonedDateTime scheduledDate;
+    private OffsetDateTime scheduledDate;
     private Instant createdAt;
     private Instant updatedAt;
     private Integer rating;
