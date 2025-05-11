@@ -1,8 +1,9 @@
 package com.gestor.projeto_engenharia_software.controller;
 
 
+import com.gestor.projeto_engenharia_software.dto.AuthDTO;
 import com.gestor.projeto_engenharia_software.dto.UserDTO;
-import com.gestor.projeto_engenharia_software.service.users.UserService;
+import com.gestor.projeto_engenharia_software.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,8 +46,23 @@ public class UserController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long userId) {
-        userService.deleteUser(userId);
-        return ResponseEntity.ok("User deleted sucessfully.");
+        UserDTO userDTO = userService.deleteUser(userId);
+        return ResponseEntity.ok("User deleted successfully." + userDTO);
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<String> authenticate(@RequestBody AuthDTO authDTO) {
+        boolean authenticated = userService.authenticateUser(
+                authDTO.getEmail(),
+                authDTO.getPassword(),
+                authDTO.getRole()
+        );
+
+        if (authenticated) {
+            return ResponseEntity.ok("Authentication successful");
+        } else {
+            return ResponseEntity.status(401).body("Invalid email, password or role");
+        }
     }
 
 }

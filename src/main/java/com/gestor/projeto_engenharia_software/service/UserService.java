@@ -1,4 +1,4 @@
-package com.gestor.projeto_engenharia_software.service.users;
+package com.gestor.projeto_engenharia_software.service;
 
 import com.gestor.projeto_engenharia_software.dto.UserDTO;
 
@@ -14,4 +14,6 @@ public interface UserService {
     UserDTO updateUser(Long userId, UserDTO updatedUser);
 
     UserDTO deleteUser(Long userId);
+
+    boolean authenticateUser(String email, String password, String role);
 }

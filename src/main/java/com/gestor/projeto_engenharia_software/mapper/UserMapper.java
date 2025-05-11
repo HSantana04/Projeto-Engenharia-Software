@@ -7,18 +7,18 @@ public class UserMapper {
 
     public static UserDTO mapToUserDTO(User user) {
         return new UserDTO(
-                user.getID(),
-                user.getROLE(),
-                user.getNAME(),
-                user.getMAIL(),
-                user.getPWD(),
-                user.getAREAS_OF_ACTIVITY(),
-                user.getCURRENT_COMPANY(),
-                user.getCERTIFICATES(),
-                user.getOCCUPATION(),
-                user.getCREATED_DATE(),
-                user.getLAST_UPDATE(),
-                user.getRATING()
+                user.getId(),
+                user.getRole(),
+                user.getName(),
+                user.getMail(),
+                user.getPwd(),
+                user.getAreas_of_activity(),
+                user.getCurrent_company(),
+                user.getCertificates(),
+                user.getOccupation(),
+                user.getCreated_date(),
+                user.getLast_update(),
+                user.getRating()
         );
     }
 
