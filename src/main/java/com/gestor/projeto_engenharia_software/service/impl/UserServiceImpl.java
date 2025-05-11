@@ -51,13 +51,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO updateUser(Long userId, UserDTO updatedUserDTO) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
-        user.setName(updatedUserDTO.getName());
-        user.setMail(updatedUserDTO.getEmail());
-        user.setPwd(updatedUserDTO.getPassword());
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        if (updatedUserDTO.getRole() != null) user.setRole(updatedUserDTO.getRole());
+        if (updatedUserDTO.getName() != null) user.setName(updatedUserDTO.getName());
+        if (updatedUserDTO.getEmail() != null) user.setMail(updatedUserDTO.getEmail());
+        if (updatedUserDTO.getPassword() != null) user.setPwd(passwordEncoder.encode(updatedUserDTO.getPassword())); // se usar hash
+        if (updatedUserDTO.getAreasOfActivity() != null) user.setAreas_of_activity(updatedUserDTO.getAreasOfActivity());
+        if (updatedUserDTO.getCurrentCompany() != null) user.setCurrent_company(updatedUserDTO.getCurrentCompany());
+        if (updatedUserDTO.getCertificates() != null) user.setCertificates(updatedUserDTO.getCertificates());
+        if (updatedUserDTO.getOccupation() != null) user.setOccupation(updatedUserDTO.getOccupation());
+        if (updatedUserDTO.getRating() != null) user.setRating(updatedUserDTO.getRating());
+
         user.setLast_update(Instant.now());
-        User updatedUser = userRepository.save(user);
-        return UserMapper.mapToUserDTO(updatedUser);
+
+        return UserMapper.mapToUserDTO(userRepository.save(user));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.gestor.projeto_engenharia_software.service;
 
 import com.gestor.projeto_engenharia_software.dto.MentoringDTO;
+import com.gestor.projeto_engenharia_software.entity.Mentoring;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ public interface MentoringService {
 
     MentoringDTO deleteMentoring(Long userId);
 
-    MentoringDTO getMentoringByMentoredId(Integer mentoredId);
+    List<Mentoring> getMentoringByMentoredId(Integer mentoredId);
 }
