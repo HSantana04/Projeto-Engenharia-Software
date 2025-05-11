@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "mentorings")
 public class Mentoring {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
