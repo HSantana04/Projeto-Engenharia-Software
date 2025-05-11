@@ -1,4 +1,4 @@
-package com.gestor.projeto_engenharia_software.dto.users;
+package com.gestor.projeto_engenharia_software.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,12 +11,17 @@ import java.time.Instant;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ManagerDTO {
+public class UserDTO {
     private Long id;
+    private String role;
     private String name;
     private String email;
     private String password;
-    private String role;
+    private String areasOfActivity;
+    private String currentCompany;
+    private String certificates;
+    private String occupation;
     private Instant createdAt;
     private Instant updatedAt;
+    private Integer rating;
 }
