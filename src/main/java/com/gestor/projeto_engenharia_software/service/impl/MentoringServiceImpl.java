@@ -66,9 +66,4 @@ public class MentoringServiceImpl implements MentoringService {
         mentoringRepository.delete(mentoring);
         return MentoringMapper.mapToMentoringDTO(mentoring);
     }
-
-    @Override
-    public List<Mentoring> getMentoringByMentoredId(Integer mentoredId) {
-        return mentoringRepository.findByMentored_id(mentoredId);
-    }
 }

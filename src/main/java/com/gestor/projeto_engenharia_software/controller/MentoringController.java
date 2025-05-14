@@ -1,7 +1,6 @@
 package com.gestor.projeto_engenharia_software.controller;
 
 import com.gestor.projeto_engenharia_software.dto.MentoringDTO;
-import com.gestor.projeto_engenharia_software.entity.Mentoring;
 import com.gestor.projeto_engenharia_software.service.MentoringService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,11 +46,5 @@ public class MentoringController {
     public ResponseEntity<String> deleteMentoring(@PathVariable("id") Long mentoringId) {
         MentoringDTO mentoringDTO = mentoringService.deleteMentoring(mentoringId);
         return ResponseEntity.ok("Mentoring deleted successfully." + mentoringDTO);
-    }
-
-    @GetMapping("/get-mentorings/{mentoredID}")
-    public ResponseEntity<List<Mentoring>> getByMentoredId(@PathVariable Integer mentoredID) {
-        List<Mentoring> mentorings = mentoringService.getMentoringByMentoredId(mentoredID);
-        return ResponseEntity.ok(mentorings);
     }
 }
