@@ -6,14 +6,14 @@ name: Build and deploy JAR app to Azure Web App - BackEndGestor
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read # This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
@@ -22,16 +22,21 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'microsoft'
+          distribution: 'temurin'  # Mudando para a distribuição temurin
 
-      - name: Build with Maven
-        run: mvn clean install
+      - name: Set up Gradle
+        uses: gradle/wrapper-validation-action@v1  # Adiciona o Gradle Wrapper
+        with:
+          gradle-version: '7.4'  # A versão do Gradle que você deseja usar
+
+      - name: Build with Gradle
+        run: ./gradlew bootJar  # Usando Gradle para compilar o JAR
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: '${{ github.workspace }}/build/libs/*.jar'  # Caminho do JAR gerado pelo Gradle
 
   deploy:
     runs-on: ubuntu-latest
@@ -40,15 +45,15 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write # This is required for requesting the JWT
+      contents: read # This is required for actions/checkout
   
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -62,5 +67,4 @@ jobs:
         with:
           app-name: 'BackEndGestor'
           slot-name: 'Production'
-          package: '*.jar'
-          
+          package: '${{ github.workspace }}/build/libs/*.jar'  # Caminho do JAR gerado
