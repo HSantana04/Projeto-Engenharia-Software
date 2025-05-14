@@ -24,8 +24,11 @@ jobs:
           java-version: '17'
           distribution: 'microsoft'
 
-      - name: Build with Maven
-        run: mvn clean install
+      - name: Give Gradle Wrapper execute permission
+        run: chmod +x ./gradlew  # Garantindo permissão para executar o gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew bootJar  # Usando Gradle para compilar o JAR
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
