@@ -24,11 +24,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'  # Mudando para a distribuição temurin
 
-      - name: Set up Gradle
-        uses: gradle/wrapper-validation-action@v1  # Adiciona o Gradle Wrapper
-        with:
-          gradle-version: '7.4'  # A versão do Gradle que você deseja usar
-
       - name: Give Gradle Wrapper execute permission
         run: chmod +x ./gradlew
 
