@@ -28,7 +28,7 @@ jobs:
         run: chmod +x ./gradlew  # Garantindo permissão para executar o gradlew
 
       - name: Build with Gradle
-        run: ./gradlew bootJar  # Usando Gradle para compilar o JAR
+        run: ./gradlew clean bootJar  # Usando Gradle para compilar o JAR
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
