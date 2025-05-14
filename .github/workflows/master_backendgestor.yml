@@ -29,6 +29,9 @@ jobs:
         with:
           gradle-version: '7.4'  # A versão do Gradle que você deseja usar
 
+      - name: Give Gradle Wrapper execute permission
+        run: chmod +x ./gradlew
+
       - name: Build with Gradle
         run: ./gradlew bootJar  # Usando Gradle para compilar o JAR
 
