@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @CrossOrigin("*")
 @AllArgsConstructor
@@ -36,13 +35,7 @@ public class UserController {
         return ResponseEntity.ok(userDTO);
     }
 
-    @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        log.info("📥 [GET] /users - Buscando todos os usuários");
-        List<UserDTO> userDTOs = userService.getAllUsers();
-        log.info("📦 Total de usuários encontrados: {}", userDTOs.size());
-        return ResponseEntity.ok(userDTOs);
-    }
+
 
     @PutMapping("{id}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long userId,
