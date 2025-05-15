@@ -7,6 +7,7 @@ import com.gestor.projeto_engenharia_software.mapper.UserMapper;
 import com.gestor.projeto_engenharia_software.repository.UserRepository;
 import com.gestor.projeto_engenharia_software.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,47 +18,74 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
-
     private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDTO createUser(UserDTO userDTO) {
+        log.info("🛠️ Criando novo usuário: {}", userDTO);
+
         userDTO.setCreatedAt(Instant.now());
         userDTO.setUpdatedAt(Instant.now());
+
+        log.debug("🔐 Codificando senha...");
         String hashedPassword = passwordEncoder.encode(userDTO.getPassword());
         userDTO.setPassword(hashedPassword);
+
         User user = UserMapper.mapToUser(userDTO);
-        System.out.println(user);
+        log.debug("📦 Entidade User mapeada: {}", user);
+
         User savedUser = userRepository.save(user);
+        log.info("✅ Usuário salvo com sucesso: {}", savedUser);
+
         return UserMapper.mapToUserDTO(savedUser);
     }
 
     @Override
     public UserDTO getUserById(Long userId) {
+        log.info("🔍 Buscando usuário com ID: {}", userId);
+
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
+                .orElseThrow(() -> {
+                    log.warn("❌ Usuário com ID {} não encontrado", userId);
+                    return new ResourceNotFoundException("User with id " + userId + " not found");
+                });
+
+        log.info("✅ Usuário encontrado: {}", user);
         return UserMapper.mapToUserDTO(user);
     }
 
     @Override
     public List<UserDTO> getAllUsers() {
+        log.info("📥 Buscando todos os usuários...");
         List<User> users = userRepository.findAll();
+        log.info("📦 Total de usuários encontrados: {}", users.size());
         return users.stream().map(UserMapper::mapToUserDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     public UserDTO updateUser(Long userId, UserDTO updatedUserDTO) {
+        log.info("♻️ Atualizando usuário com ID: {}", userId);
+
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> {
+                    log.warn("❌ Usuário com ID {} não encontrado para atualização", userId);
+                    return new RuntimeException("Usuário não encontrado");
+                });
+
+        log.debug("📤 Dados recebidos para atualização: {}", updatedUserDTO);
 
         if (updatedUserDTO.getRole() != null) user.setRole(updatedUserDTO.getRole());
         if (updatedUserDTO.getName() != null) user.setName(updatedUserDTO.getName());
         if (updatedUserDTO.getEmail() != null) user.setMail(updatedUserDTO.getEmail());
-        if (updatedUserDTO.getPassword() != null) user.setPwd(passwordEncoder.encode(updatedUserDTO.getPassword())); // se usar hash
+        if (updatedUserDTO.getPassword() != null) {
+            log.debug("🔐 Atualizando senha...");
+            user.setPwd(passwordEncoder.encode(updatedUserDTO.getPassword()));
+        }
         if (updatedUserDTO.getAreasOfActivity() != null) user.setAreas_of_activity(updatedUserDTO.getAreasOfActivity());
         if (updatedUserDTO.getCurrentCompany() != null) user.setCurrent_company(updatedUserDTO.getCurrentCompany());
         if (updatedUserDTO.getCertificates() != null) user.setCertificates(updatedUserDTO.getCertificates());
@@ -66,31 +94,51 @@ public class UserServiceImpl implements UserService {
 
         user.setLast_update(Instant.now());
 
-        return UserMapper.mapToUserDTO(userRepository.save(user));
+        User updatedUser = userRepository.save(user);
+        log.info("✅ Usuário atualizado: {}", updatedUser);
+
+        return UserMapper.mapToUserDTO(updatedUser);
     }
 
     @Override
     public UserDTO deleteUser(Long userId) {
+        log.info("🗑️ Deletando usuário com ID: {}", userId);
+
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
+                .orElseThrow(() -> {
+                    log.warn("❌ Usuário com ID {} não encontrado para exclusão", userId);
+                    return new ResourceNotFoundException("User with id " + userId + " not found");
+                });
+
         userRepository.delete(user);
+        log.info("✅ Usuário deletado com sucesso: {}", user);
         return UserMapper.mapToUserDTO(user);
     }
 
     @Override
     public boolean authenticateUser(String email, String password, String role) {
+        log.info("🔐 Autenticando usuário com e-mail: {} e role: {}", email, role);
+
         Optional<User> userOptional = userRepository.findByMail(email);
 
         if (userOptional.isEmpty()) {
+            log.warn("❌ Usuário com e-mail {} não encontrado", email);
             return false;
         }
 
         User user = userOptional.get();
 
         if (!passwordEncoder.matches(password, user.getPwd())) {
+            log.warn("❌ Senha inválida para e-mail: {}", email);
             return false;
         }
 
-        return user.getRole().equals(role);
+        if (!user.getRole().equals(role)) {
+            log.warn("❌ Role inválida para e-mail: {}. Esperado: {}, Recebido: {}", email, user.getRole(), role);
+            return false;
+        }
+
+        log.info("✅ Autenticação bem-sucedida para usuário: {}", email);
+        return true;
     }
 }
