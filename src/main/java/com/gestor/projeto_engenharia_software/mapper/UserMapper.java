@@ -22,20 +22,20 @@ public class UserMapper {
         );
     }
 
-    public static User mapToUser(UserDTO userDTO) {
-        return new User(
-                userDTO.getId(),
-                userDTO.getRole(),
-                userDTO.getName(),
-                userDTO.getEmail(),
-                userDTO.getPassword(),
-                userDTO.getAreasOfActivity(),
-                userDTO.getCurrentCompany(),
-                userDTO.getOccupation(),
-                userDTO.getRole(),
-                userDTO.getCreatedAt(),
-                userDTO.getUpdatedAt(),
-                userDTO.getRating()
-        );
+    public static User mapToUser(UserDTO dto) {
+        User user = new User();
+        user.setId(dto.getId());
+        user.setRole(dto.getRole());
+        user.setName(dto.getName());
+        user.setMail(dto.getEmail());
+        user.setPwd(dto.getPassword());
+        user.setAreas_of_activity(dto.getAreasOfActivity());
+        user.setCurrent_company(dto.getCurrentCompany());
+        user.setCertificates(dto.getCertificates());
+        user.setOccupation(dto.getOccupation());
+        user.setCreated_date(dto.getCreatedAt());
+        user.setLast_update(dto.getUpdatedAt());
+        user.setRating(dto.getRating());
+        return user;
     }
 }
