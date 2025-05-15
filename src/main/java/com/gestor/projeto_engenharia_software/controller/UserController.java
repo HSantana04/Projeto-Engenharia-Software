@@ -20,7 +20,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("add")
+    @PostMapping("")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         log.info("🔧 [POST] /users - Criando usuário: {}", userDTO);
         UserDTO savedUser = userService.createUser(userDTO);
