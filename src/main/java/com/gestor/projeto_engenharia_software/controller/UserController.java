@@ -18,7 +18,7 @@ import com.gestor.projeto_engenharia_software.dto.EmailRequestDTO;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/users")
-@Slf4j // Lombok cria o logger automaticamente
+@Slf4j
 public class UserController {
 
     private final UserService userService;
@@ -31,21 +31,11 @@ public class UserController {
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long userId,
-                                              @RequestBody UserDTO updatedUserDTO) {
-        log.info("♻️ [PUT] /users/{} - Atualizando usuário com dados: {}", userId, updatedUserDTO);
-        UserDTO userDTO = userService.updateUser(userId, updatedUserDTO);
-        log.info("✅ Usuário atualizado: {}", userDTO);
+    @PostMapping("/search-by-email")  // rota clara, não conflita com {id}
+    public ResponseEntity<UserDTO> getUserByEmail(@RequestBody EmailRequestDTO request) {
+        log.info("📥 [POST] /users/search-by-email - Buscando usuário por email: {}", request.getEmail());
+        UserDTO userDTO = userService.getUserByEmail(request.getEmail());
         return ResponseEntity.ok(userDTO);
-    }
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable("id") Long userId) {
-        log.info("❌ [DELETE] /users/{} - Excluindo usuário", userId);
-        UserDTO userDTO = userService.deleteUser(userId);
-        log.info("🗑️ Usuário deletado: {}", userDTO);
-        return ResponseEntity.ok("User deleted successfully. " + userDTO);
     }
 
     @PostMapping("/authenticate")
@@ -66,13 +56,6 @@ public class UserController {
         }
     }
 
-    @PostMapping("/email")
-    public ResponseEntity<UserDTO> getUserByEmail(@RequestBody EmailRequestDTO request) {
-        log.info("📥 [POST] /users/email - Buscando usuário por email: {}", request.getEmail());
-        UserDTO userDTO = userService.getUserByEmail(request.getEmail());
-        return ResponseEntity.ok(userDTO);
-    }
-
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         log.info("📥 [GET] /users - Buscando todos os usuários");
@@ -87,6 +70,23 @@ public class UserController {
         UserDTO userDTO = userService.getUserById(userId);
         log.info("📦 Usuário encontrado: {}", userDTO);
         return ResponseEntity.ok(userDTO);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long userId,
+                                              @RequestBody UserDTO updatedUserDTO) {
+        log.info("♻️ [PUT] /users/{} - Atualizando usuário com dados: {}", userId, updatedUserDTO);
+        UserDTO userDTO = userService.updateUser(userId, updatedUserDTO);
+        log.info("✅ Usuário atualizado: {}", userDTO);
+        return ResponseEntity.ok(userDTO);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable("id") Long userId) {
+        log.info("❌ [DELETE] /users/{} - Excluindo usuário", userId);
+        UserDTO userDTO = userService.deleteUser(userId);
+        log.info("🗑️ Usuário deletado: {}", userDTO);
+        return ResponseEntity.ok("User deleted successfully. " + userDTO);
     }
 
 }
