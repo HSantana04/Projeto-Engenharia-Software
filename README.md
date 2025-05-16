@@ -21,7 +21,7 @@ Aplicação backend com Spring Boot com o objetivo de criar uma API REST para ge
 ### Pré-requisitos
 
 - Java 17 instalado
-- MySQL em execução
+- MySQL 8.0.42 em execução 
 - Maven configurado (ou uso do wrapper `./mvnw`)
 - Uma IDE como IntelliJ
 
