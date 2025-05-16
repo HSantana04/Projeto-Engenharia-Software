@@ -36,6 +36,8 @@ public class UserServiceImpl implements UserService {
         String hashedPassword = passwordEncoder.encode(userDTO.getPassword());
         userDTO.setPassword(hashedPassword);
 
+        userDTO.setRating(3);
+
         User user = UserMapper.mapToUser(userDTO);
         log.debug("📦 Entidade User mapeada: {}", user);
 
