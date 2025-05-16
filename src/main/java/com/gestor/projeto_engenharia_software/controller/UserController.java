@@ -35,8 +35,14 @@ public class UserController {
     public ResponseEntity<UserDTO> getUserByEmail(@RequestBody EmailRequestDTO request) {
         log.info("📥 [POST] /users/search-by-email - Buscando usuário por email: {}", request.getEmail());
         UserDTO userDTO = userService.getUserByEmail(request.getEmail());
+
+        if (userDTO == null) {
+            return ResponseEntity.notFound().build();  // Retorna 404 se não encontrado
+        }
+
         return ResponseEntity.ok(userDTO);
     }
+
 
     @PostMapping("/authenticate")
     public ResponseEntity<String> authenticate(@RequestBody AuthDTO authDTO) {
