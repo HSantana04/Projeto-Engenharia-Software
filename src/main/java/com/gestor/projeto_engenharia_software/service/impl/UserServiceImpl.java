@@ -8,6 +8,7 @@ import com.gestor.projeto_engenharia_software.repository.UserRepository;
 import com.gestor.projeto_engenharia_software.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -140,5 +141,27 @@ public class UserServiceImpl implements UserService {
 
         log.info("✅ Autenticação bem-sucedida para usuário: {}", email);
         return true;
+    }
+
+    @Override
+    public UserDTO getUserByEmail(String email) {
+        User user = userRepository.findByMail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com o e-mail: " + email));
+
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
+        dto.setRole(user.getRole());
+        dto.setName(user.getName());
+        dto.setEmail(user.getMail());
+        dto.setPassword("");
+        dto.setAreasOfActivity(user.getAreas_of_activity());
+        dto.setCurrentCompany(user.getCurrent_company());
+        dto.setCertificates(user.getCertificates());
+        dto.setOccupation(user.getOccupation());
+        dto.setCreatedAt(user.getCreated_date());
+        dto.setUpdatedAt(user.getLast_update());
+        dto.setRating(user.getRating());
+
+        return dto;
     }
 }

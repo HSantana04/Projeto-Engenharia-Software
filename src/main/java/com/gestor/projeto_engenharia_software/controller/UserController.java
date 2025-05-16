@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import com.gestor.projeto_engenharia_software.dto.EmailRequestDTO;
+
 
 @CrossOrigin("*")
 @AllArgsConstructor
@@ -80,5 +82,12 @@ public class UserController {
             log.warn("❌ Falha na autenticação para: {}", authDTO.getEmail());
             return ResponseEntity.status(401).body("Invalid email, password or role");
         }
+    }
+
+    @PostMapping("/email")
+    public ResponseEntity<UserDTO> getUserByEmail(@RequestBody EmailRequestDTO request) {
+        log.info("📥 [POST] /users/mail - Buscando usuário por email: {}", request.getEmail());
+        UserDTO userDTO = userService.getUserByEmail(request.getEmail());
+        return ResponseEntity.ok(userDTO);
     }
 }

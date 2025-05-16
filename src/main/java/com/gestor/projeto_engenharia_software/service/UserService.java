@@ -15,5 +15,7 @@ public interface UserService {
 
     UserDTO deleteUser(Long userId);
 
+    UserDTO getUserByEmail(String email);
+
     boolean authenticateUser(String email, String password, String role);
 }
