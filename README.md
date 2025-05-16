@@ -21,20 +21,8 @@ Aplicação backend com Spring Boot com o objetivo de criar uma API REST para ge
 ### Pré-requisitos
 
 - Java 17 instalado
-- MySQL 8.0.42 em execução 
-- Maven configurado (ou uso do wrapper `./mvnw`)
+- Gradle
 - Uma IDE como IntelliJ
-
-## 📦 Dependências do Projeto (Gradle)
-
-implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-implementation 'org.springframework.boot:spring-boot-starter-web'
-implementation 'org.springframework.boot:spring-boot-starter-security'
-compileOnly 'org.projectlombok:lombok'
-runtimeOnly 'com.mysql:mysql-connector-j'
-annotationProcessor 'org.projectlombok:lombok'
-testImplementation 'org.springframework.boot:spring-boot-starter-test'
-testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 
 1. Clone o repositório:
