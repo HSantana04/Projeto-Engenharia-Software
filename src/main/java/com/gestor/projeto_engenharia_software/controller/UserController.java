@@ -62,6 +62,14 @@ public class UserController {
         }
     }
 
+    @GetMapping("/role/{role}")
+    public ResponseEntity<List<UserDTO>> getUsersByRole(@PathVariable String role) {
+        log.info("📥 [GET] /users/role/{} - Buscando todos os usuários do papel: {}", role, role);
+        List<UserDTO> userDTOs = userService.getUsersByRole(role);
+        log.info("📦 Total de usuários encontrados: {}", userDTOs.size());
+        return ResponseEntity.ok(userDTOs);
+    }
+
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         log.info("📥 [GET] /users - Buscando todos os usuários");

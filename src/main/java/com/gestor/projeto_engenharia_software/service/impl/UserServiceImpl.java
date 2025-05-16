@@ -164,4 +164,13 @@ public class UserServiceImpl implements UserService {
 
         return dto;
     }
+
+    @Override
+    public List<UserDTO> getUsersByRole(String role) {
+        log.info("📥 Buscando todos os usuários {}...", role);
+        List<User> users = userRepository.findByRole(role);
+        log.info("📦 Total de usuários encontrados: {}", users.size());
+        return users.stream().map(UserMapper::mapToUserDTO)
+                .collect(Collectors.toList());
+    }
 }

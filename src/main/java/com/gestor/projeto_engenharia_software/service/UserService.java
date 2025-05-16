@@ -17,5 +17,7 @@ public interface UserService {
 
     UserDTO getUserByEmail(String email);
 
+    List<UserDTO> getUsersByRole(String role);
+
     boolean authenticateUser(String email, String password, String role);
 }
