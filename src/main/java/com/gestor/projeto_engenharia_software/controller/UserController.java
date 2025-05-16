@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @CrossOrigin("*")
 @AllArgsConstructor
@@ -19,12 +21,20 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         log.info("🔧 [POST] /users - Criando usuário: {}", userDTO);
         UserDTO savedUser = userService.createUser(userDTO);
         log.info("✅ Usuário criado com sucesso: {}", savedUser);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        log.info("📥 [GET] /users - Buscando todos os usuários");
+        List<UserDTO> userDTOs = userService.getAllUsers();
+        log.info("📦 Total de usuários encontrados: {}", userDTOs.size());
+        return ResponseEntity.ok(userDTOs);
     }
 
     @GetMapping("{id}")
