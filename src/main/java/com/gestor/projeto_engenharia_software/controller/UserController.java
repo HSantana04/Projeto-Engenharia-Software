@@ -31,24 +31,6 @@ public class UserController {
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        log.info("📥 [GET] /users - Buscando todos os usuários");
-        List<UserDTO> userDTOs = userService.getAllUsers();
-        log.info("📦 Total de usuários encontrados: {}", userDTOs.size());
-        return ResponseEntity.ok(userDTOs);
-    }
-
-    @GetMapping("{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Long userId) {
-        log.info("🔍 [GET] /users/{} - Buscando usuário por ID", userId);
-        UserDTO userDTO = userService.getUserById(userId);
-        log.info("📦 Usuário encontrado: {}", userDTO);
-        return ResponseEntity.ok(userDTO);
-    }
-
-
-
     @PutMapping("{id}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long userId,
                                               @RequestBody UserDTO updatedUserDTO) {
@@ -86,8 +68,25 @@ public class UserController {
 
     @PostMapping("/email")
     public ResponseEntity<UserDTO> getUserByEmail(@RequestBody EmailRequestDTO request) {
-        log.info("📥 [POST] /users/mail - Buscando usuário por email: {}", request.getEmail());
+        log.info("📥 [POST] /users/email - Buscando usuário por email: {}", request.getEmail());
         UserDTO userDTO = userService.getUserByEmail(request.getEmail());
         return ResponseEntity.ok(userDTO);
     }
+
+    @GetMapping
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        log.info("📥 [GET] /users - Buscando todos os usuários");
+        List<UserDTO> userDTOs = userService.getAllUsers();
+        log.info("📦 Total de usuários encontrados: {}", userDTOs.size());
+        return ResponseEntity.ok(userDTOs);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Long userId) {
+        log.info("🔍 [GET] /users/{} - Buscando usuário por ID", userId);
+        UserDTO userDTO = userService.getUserById(userId);
+        log.info("📦 Usuário encontrado: {}", userDTO);
+        return ResponseEntity.ok(userDTO);
+    }
+
 }
