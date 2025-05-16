@@ -17,7 +17,7 @@ import com.gestor.projeto_engenharia_software.dto.EmailRequestDTO;
 @CrossOrigin("*")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 @Slf4j
 public class UserController {
 
