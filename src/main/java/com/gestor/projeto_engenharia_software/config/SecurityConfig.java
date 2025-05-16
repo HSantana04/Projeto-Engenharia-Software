@@ -25,6 +25,7 @@ public class SecurityConfig {
         http
                 .cors(cors -> {}) // habilita o filtro CORS do Spring Security
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/v1/users/search-by-email", "/api/v1/users/**").permitAll()
                         .anyRequest().permitAll() // aqui você pode personalizar depois se quiser
                 )
                 .csrf(AbstractHttpConfigurer::disable)
